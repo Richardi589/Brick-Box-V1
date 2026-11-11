@@ -2,11 +2,6 @@
 ### Умный 7-канальный блок радиоуправления для RC-моделей и LEGO Technic
 **by Richardi**
 
-![Platform](https://shields.io)
-![Channels](https://shields.io)
-![Connectivity](https://shields.io)
-![Battery](https://shields.io)
-
 </div>
 
 ---

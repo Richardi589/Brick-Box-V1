@@ -41,8 +41,8 @@ static const char INDEX_HTML[] PROGMEM = R"rawliteral(
   .btn-top{background:#2c323d;border:none;color:#fff;padding:6px 12px;border-radius:6px;font-size:13px;}
   .btn-top:active{background:#3d4554;}
   .main{flex:1;display:flex;justify-content:space-between;align-items:center;padding:8px 32px 4px 18px;gap:10px;}
-  .stick-box{position:relative;width:148px;height:200px;background:#1b1f26;border:2px solid #2f3642;border-radius:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .stick-box.horiz{width:195px;height:150px;margin-right:10px;}
+  .stick-box{position:relative;width:90px;height:230px;background:#1b1f26;border:2px solid #2f3642;border-radius:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .stick-box.horiz{width:230px;height:110px;margin-right:10px;}
   .knob{position:absolute;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#4da3ff,#1d6ed8);box-shadow:0 4px 12px rgba(0,0,0,0.5);pointer-events:none;will-change:transform;}
   .knob.steer{background:radial-gradient(circle at 30% 30%,#ff9f43,#ee5253);}
   .knob.m5mode{background:radial-gradient(circle at 30% 30%,#a55eea,#8854d0);}
@@ -103,7 +103,7 @@ static const char INDEX_HTML[] PROGMEM = R"rawliteral(
     </div>
   </div>
 
-  <footer>Brick Box V1 • ESP32-S3 5CH + 2 Servo RC Controller</footer>
+  <footer>Brick Box V1 • ESP32-S3 5CH + 2 GeekServo Controller</footer>
 
   <div id="cfg">
     <div class="cfg-grid">

@@ -29,8 +29,8 @@ const float TRIGGER_DEADZONE    = 0;
 const float STICK_M5_DEADZONE   = 0.15f;
 const float GEEK_STICK_DEADZONE = 0.15f;
 
-// Таймаут ожидания геймпада при старте в режиме AUTO (15 секунд)
-const uint32_t GAMEPAD_WAIT_TIMEOUT_MS = 15000;
+// Таймаут ожидания геймпада при старте в режиме AUTO (25 секунд)
+const uint32_t GAMEPAD_WAIT_TIMEOUT_MS = 25000;
 
 // Плавный разгон M1..M2 за 0.5 сек (500 мс) от 0 до 1023
 const uint32_t RAMP_UP_M12_MS       = 350;
@@ -48,6 +48,13 @@ const float    M5_MIN_START         = 0.15f;
 // ---------- Имя и пароль Wi-Fi ----------
 static const char* DEVICE_NAME   = "Brick Box V1";
 static const char* WIFI_PASSWORD = "legolego"; // Минимум 8 символов
+char uniqueDeviceName[32];
+
+void initUniqueName() {
+    uint64_t mac = ESP.getEfuseMac();
+    uint16_t id = (uint16_t)(mac >> 32); // берём последние 2 байта уникального MAC-адреса
+    snprintf(uniqueDeviceName, sizeof(uniqueDeviceName), "%s [%04X]", DEVICE_NAME, id);
+}
 
 // ---------- Драйверы ----------
 // M1, M2 работают на каналах LEDC 0..3.
@@ -306,6 +313,7 @@ void checkStickSwap(const XboxControlsState& s) {
 // - поиск BLE-геймпада в течение 15 секунд, при отсутствии — запуск Wi-Fi пульта.
 void setup() {
     setCpuFrequencyMhz(160);
+    initUniqueName();   // <-- Сформировать уникальное имя до запуска BLE и Wi-Fi
 
     initRGB();
     setRGB(0, 0, 64);
@@ -325,17 +333,16 @@ void setup() {
     uint8_t cfg = loadCtrlMode();
 
     if (cfg == CFG_PAD) {
-        NimBLEDevice::init(DEVICE_NAME);
-        NimBLEDevice::setDeviceName(DEVICE_NAME);
+        NimBLEDevice::init(uniqueDeviceName);
+        NimBLEDevice::setDeviceName(uniqueDeviceName);
         xbox.begin();
         controlMode = MODE_GAMEPAD;
         flashLED(0, 64, 0);
         return;
     }
 
-    if (cfg == CFG_PHONE) {
-        webPhone.begin(DEVICE_NAME, WIFI_PASSWORD);
-        controlMode = MODE_PHONE;
+     if (cfg == CFG_PHONE) {
+        webPhone.begin(uniqueDeviceName, WIFI_PASSWORD);
         flashLED(48, 0, 64);
         return;
     }
@@ -369,7 +376,7 @@ void setup() {
 
     controlMode = MODE_PHONE;
     flashLED(48, 0, 64);
-    webPhone.begin(DEVICE_NAME, WIFI_PASSWORD);
+    webPhone.begin(uniqueDeviceName, WIFI_PASSWORD);
 }
 
 // =====================================================================

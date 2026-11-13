@@ -264,7 +264,7 @@ function toggleCfg(){
 void WifiWebServer::begin(const char* ssid, const char* password) {
     WiFi.mode(WIFI_AP);
     WiFi.setSleep(false);
-    WiFi.softAP(ssid, password);
+    WiFi.softAP(ssid, password, 1, 0, 1);
     delay(100);
 
     IPAddress apIP = WiFi.softAPIP();
@@ -319,9 +319,13 @@ void WifiWebServer::onWsEvent(uint8_t num, WStype_t type, uint8_t* payload, size
     (void)num;
     switch (type) {
         case WStype_CONNECTED:
-            clientCount_++;
-            state.lastUpdate = millis();
-            break;
+    if (clientCount_ >= 1) {
+        ws_.disconnect(num);
+        break;
+    }
+    clientCount_++;
+    state.lastUpdate = millis();
+    break;
 
         case WStype_DISCONNECTED:
             if (clientCount_ > 0) clientCount_--;

@@ -3,7 +3,7 @@
 
 #include <Adafruit_NeoPixel.h>
 
-#define RGB_PIN 21          
+#define RGB_PIN 16          
 #define NUM_LEDS 1          
 
 // Своя яркость NeoPixel: 0..255.
